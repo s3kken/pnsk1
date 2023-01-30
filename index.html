@@ -5,10 +5,23 @@
     <title>Title</title>
     <script defer src="scripts/vue.min.js"></script>
     <script defer src="scripts/main.js"></script>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 <div id="app">
-    <h1>{{ product }}</h1>
+
+    <div class="product">
+
+        <div class="product-image">
+            <img alt="#" v-bind:src="image"/>
+        </div>
+
+        <div class="product-info">
+            <h1>{{ product }}</h1>
+        </div>
+
+    </div>
 </div>
+
 </body>
 </html>
