@@ -2,6 +2,7 @@ let app = new Vue({
     el: '#app',
     data: {
         product: "Socks",
+        brand: 'Vue Mastery',
         image: "./assets/vmSocks-green-onWhite.jpg",
         altText: "A pair of socks",
         inStock: false,
@@ -20,12 +21,20 @@ let app = new Vue({
         ],
         cart: 0
     },
+
     methods: {
         addToCart() {
             this.cart += 1
         },
         updateProduct(variantImage) {
             this.image = variantImage
+        },
+    },
+
+    computed: {
+        title() {
+            return this.brand + ' ' + this.product;
         }
     }
+
 })
