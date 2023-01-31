@@ -142,19 +142,10 @@ Vue.component('product', {
            >
                Add to cart
            </button>    
-       </div>           
-       <div>
-            <h2>Reviews</h2>
-            <p v-if="!reviews.length">There are no reviews yet.</p>
-            <ul>
-              <li v-for="review in reviews">
-              <p>{{ review.name }}</p>
-              <p>Rating: {{ review.rating }}</p>
-              <p>{{ review.review }}</p>
-              </li>
-            </ul>
+           <product-tabs :reviews="reviews"></product-tabs>
        </div>
-              <product-tabs :reviews="reviews"></product-tabs>
+       </div>       
+
  `,
     data() {
         return {
@@ -193,12 +184,6 @@ Vue.component('product', {
                 this.reviews.push(productReview)
              })             
         },
-        mounted() {
-            eventBus.$on('review-submitted', productReview => {
-                this.reviews.push(productReview)
-            })
-         }
-         
     },
     computed: {
         title() {
@@ -217,7 +202,13 @@ Vue.component('product', {
                 return 2.99
             }
         }
-    }
+    },
+    mounted() {
+        eventBus.$on('review-submitted', productReview => {
+            this.reviews.push(productReview)
+        })
+     }
+     
 })
 let app = new Vue({
     el: '#app',
