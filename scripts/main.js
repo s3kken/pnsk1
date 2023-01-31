@@ -1,3 +1,17 @@
+Vue.component('product-details', {
+    template:`
+        <ul>
+            <li v-for="detail in details">{{ detail }}</li>
+        </ul>
+    `,
+    props: {
+        details: {
+            type: Array,
+            required: true
+        }
+    },
+})
+
 Vue.component('product', {
     template: `
    <div class="product">
@@ -9,9 +23,7 @@ Vue.component('product', {
             <h1>{{ title }}</h1>
             <p v-if="inStock">In stock</p>
             <p v-else>Out of Stock</p>
-            <ul>
-                <li v-for="detail in details">{{ detail }}</li>
-            </ul>
+    <product-details :details="details"></product-details>
             <p>Shipping: {{ shipping }}</p>
             <div
                     class="color-box"
