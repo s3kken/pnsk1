@@ -1,3 +1,5 @@
+let eventBus = new Vue()
+
 Vue.component('product-tabs', {
     props: {
         reviews: {
@@ -25,7 +27,7 @@ v-for="(tab, index) in tabs"
     </ul>
 </div>
 <div v-show="selectedTab === 'Make a Review'">
-    <product-review @review-submitted="addReview"></product-review>
+<product-review></product-review>
 </div>
 </div>
 `,
@@ -38,9 +40,7 @@ v-for="(tab, index) in tabs"
         }
     },
     methods: {
-        addReview(productReview) {
-            this.reviews.push(productReview)
-        }
+
     },
 })
 
@@ -48,26 +48,21 @@ v-for="(tab, index) in tabs"
 
 Vue.component('product-review', {
     template: `
-
 <form class="review-form" @submit.prevent="onSubmit">
-
 <p v-if="errors.length">
  <b>Please correct the following error(s):</b>
  <ul>
    <li v-for="error in errors">{{ error }}</li>
  </ul>
 </p>
-
  <p>
    <label for="name">Name:</label>
    <input id="name" v-model="name" placeholder="name">
  </p>
-
  <p>
    <label for="review">Review:</label>
    <textarea id="review" v-model="review"></textarea>
  </p>
-
  <p>
    <label for="rating">Rating:</label>
    <select id="rating" v-model.number="rating">
@@ -78,11 +73,9 @@ Vue.component('product-review', {
      <option>1</option>
    </select>
  </p>
-
  <p>
    <input type="submit" value="Submit"> 
  </p>
-
 </form>
  `,
     data() {
@@ -101,7 +94,7 @@ Vue.component('product-review', {
                     review: this.review,
                     rating: this.rating
                 }
-                this.$emit('review-submitted', productReview)
+                eventBus.$emit('review-submitted', productReview)
                 this.name = null
                 this.review = null
                 this.rating = null
@@ -126,7 +119,6 @@ Vue.component('product', {
     <div class="product-image">
            <img :src="image" :alt="altText"/>
        </div>
-
        <div class="product-info">
            <h1>{{ title }}</h1>
            <p v-if="inStock">In stock</p>
@@ -197,8 +189,16 @@ Vue.component('product', {
             console.log(index);
         },
         addReview(productReview) {
-            this.reviews.push(productReview)
-        }
+            eventBus.$on('review-submitted', productReview => {
+                this.reviews.push(productReview)
+             })             
+        },
+        mounted() {
+            eventBus.$on('review-submitted', productReview => {
+                this.reviews.push(productReview)
+            })
+         }
+         
     },
     computed: {
         title() {
