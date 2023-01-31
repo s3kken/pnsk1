@@ -4,6 +4,7 @@ let app = new Vue({
         product: "Socks",
         brand: 'Vue Mastery',
         selectedVariant: 0,
+        onSale: true,
         altText: "A pair of socks",
         details: ['80% cotton', '20% polyester', 'Gender-neutral'],
         variants: [
@@ -43,9 +44,12 @@ let app = new Vue({
         },
         inStock(){
             return this.variants[this.selectedVariant].variantQuantity;
+        },
+        sale(){
+            if(this.onSale) {
+                return 'На' + ' ' + this.brand + ' ' + this.product + ' ' + 'Скидка есть'
+            }
+                return 'На' + ' ' + this.brand + ' ' + this.product + ' ' + 'Скидки нет'
         }
-
-
     }
-
 })
