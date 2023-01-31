@@ -12,7 +12,7 @@ Vue.component('product', {
             <ul>
                 <li v-for="detail in details">{{ detail }}</li>
             </ul>
-
+            <p>Shipping: {{ shipping }}</p>
             <div
                     class="color-box"
                     v-for="(variant, index) in variants"
@@ -20,9 +20,7 @@ Vue.component('product', {
                     :style="{ backgroundColor:variant.variantColor }"
                     @mouseover="updateProduct(index)"
             ></div>
-        </div>
-
-        <div class="cart">
+                    <div class="cart">
             <p>Cart({{ cart }})</p>
         </div>
 
@@ -33,8 +31,15 @@ Vue.component('product', {
         >
             Add to cart
         </button>
+        </div>
    </div>
  `,
+    props: {
+        premium: {
+            type: Boolean,
+            required: true
+        }
+    },
     data() {
         return {
             product: "Socks",
@@ -77,12 +82,23 @@ Vue.component('product', {
         },
         inStock(){
             return this.variants[this.selectedVariant].variantQuantity;
+        },
+        shipping() {
+            if (this.premium) {
+                return "Free";
+            } else {
+                return 2.99
+            }
         }
+
     }
 })
 
 let app = new Vue({
     el: '#app',
+    data: {
+        premium: true
+    }
 })
 
 
