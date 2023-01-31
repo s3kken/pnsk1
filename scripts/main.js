@@ -36,6 +36,13 @@ Vue.component('product', {
            >
                Add to cart
            </button>
+           <button
+                    v-on:click="dropToCart"
+                    :disabled="!inStock"
+                   :class="{ disabledButton: !inStock }"
+           >
+           Drop to cart
+            </button>
        
        </div>
    </div>
@@ -66,6 +73,9 @@ Vue.component('product', {
     methods: {
         addToCart() {
             this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId);
+        },
+        dropToCart() {
+                this.$emit('drop-to-cart', this.variants[this.selectedVariant].variantId);
         },
 
         updateProduct(index) {
@@ -101,6 +111,9 @@ let app = new Vue({
     methods: {
         updateCart(id) {
             this.cart.push(id);
+        },
+        dropCart(id) {
+            this.cart.pop(id);
         }
     }
 
