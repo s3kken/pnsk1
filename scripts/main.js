@@ -5,6 +5,13 @@ Vue.component('product-tabs', {
         reviews: {
             type: Array,
             required: false
+        },
+        shipping:{
+            required: true
+        },
+        details:{
+            required: true,
+            type: Array
         }
     },
      template: `
@@ -29,18 +36,23 @@ v-for="(tab, index) in tabs"
 <div v-show="selectedTab === 'Make a Review'">
 <product-review></product-review>
 </div>
+<div v-show="selectedTab === 'Shipping'">
+        <p>Shipping: {{ shipping }}</p>
+    </div>
+    <div v-show="selectedTab === 'Details'">
+        <ul>
+            <li v-for="detail in details">{{ detail }}</li>
+        </ul>
+    </div>
 </div>
 `,
 
 
     data() {
         return {
-            tabs: ['Reviews', 'Make a Review'],
+            tabs: ['Reviews', 'Make a Review', 'Shipping', 'Details'],
             selectedTab: 'Reviews'  // устанавливается с помощью @click
         }
-    },
-    methods: {
-
     },
 })
 
@@ -123,10 +135,6 @@ Vue.component('product', {
            <h1>{{ title }}</h1>
            <p v-if="inStock">In stock</p>
            <p v-else>Out of Stock</p>
-           <ul>
-               <li v-for="detail in details">{{ detail }}</li>
-           </ul>
-          <p>Shipping: {{ shipping }}</p>
            <div
                    class="color-box"
                    v-for="(variant, index) in variants"
@@ -142,7 +150,7 @@ Vue.component('product', {
            >
                Add to cart
            </button>    
-           <product-tabs :reviews="reviews"></product-tabs>
+           <product-tabs :reviews="reviews" :shipping="shipping" :details="details"></product-tabs>
        </div>
        </div>       
 
